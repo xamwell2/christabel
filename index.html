@@ -21,24 +21,29 @@
         .container {
             text-align: center; padding: 50px; background: rgba(255,255,255,0.18); border-radius: 40px;
             backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.25); max-width: 90%; z-index: 20;
-            animation: unfold 2s ease forwards 0.5s; opacity: 0; transform: scale(0.9);
+            animation: flyIn 3s ease forwards 0.5s, wiggle 5s ease-in-out infinite 4s; opacity: 0; transform: scale(0.5) translateY(-100vh);
         }
-        @keyframes unfold { to { opacity: 1; transform: scale(1); } }
+        @keyframes flyIn { to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes wiggle { 0%,100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
 
-        h1 { font-family: 'Great Vibes', cursive; font-size: 4em; color: #ff6b9d; margin-bottom: 10px; animation: fade 1.8s forwards 1.5s; opacity: 0; }
-        .name { font-family: 'Dancing Script', cursive; font-size: 5.2em; color: #ff4d94; margin: 15px 0; animation: fade 2s forwards 2s; opacity: 0; }
-        p { font-family: 'Satisfy', cursive; font-size: 2em; color: #fff; line-height: 1.7; max-width: 800px; margin: 30px auto; animation: fade 2.2s forwards 2.8s; opacity: 0; }
-        .heart { font-size: 7.5em; margin: 30px 0; animation: beat 2.5s ease infinite 4s, fade 1.5s forwards 4s; opacity: 0; cursor: pointer; }
-        @keyframes fade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes beat { 0%,100% { transform: scale(1); filter: drop-shadow(0 0 20px #ff69b4); } 50% { transform: scale(1.2); filter: drop-shadow(0 0 50px #ff69b4); } }
+        h1 { font-family: 'Great Vibes', cursive; font-size: 4em; color: #ff6b9d; margin-bottom: 10px; animation: handWrite 2s steps(40) forwards 1.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
+        .name { font-family: 'Dancing Script', cursive; font-size: 5.2em; color: #ff4d94; margin: 15px 0; animation: handWrite 2.5s steps(40) forwards 2.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
+        p { font-family: 'Satisfy', cursive; font-size: 2em; color: #fff; line-height: 1.7; max-width: 800px; margin: 30px auto; animation: handWrite 3s steps(40) forwards 3.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
+        .heart { font-size: 7.5em; margin: 30px 0; animation: cartoonBeat 1.5s ease infinite 5s, fade 1.5s forwards 5s; opacity: 0; cursor: pointer; }
+        @keyframes handWrite { to { width: 100%; opacity: 1; } }
+        @keyframes cartoonBeat { 0% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 10px #ff69b4); } 30% { transform: scale(1.3) rotate(5deg); } 60% { transform: scale(1.1) rotate(-5deg); } 100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 20px #ff69b4); } }
 
-        /* Ultra-optimized parallax layers */
+        /* Optimized parallax with cartoon depth */
         .parallax-layer {
             position: fixed; inset: 0; pointer-events: none; will-change: transform;
-            transform: translate3d(0,0,0); /* Force GPU layer */
+            transform: translate3d(0,0,0); perspective: 1000px; /* 3D cartoon feel */
         }
-        #far { z-index: 2; } #mid { z-index: 5; } #near { z-index: 8; }
-        .particle { position: absolute; will-change: transform, opacity; }
+        #far { z-index: 2; transform: translateZ(-50px); } #mid { z-index: 5; transform: translateZ(-30px); } #near { z-index: 8; transform: translateZ(-10px); }
+        .particle { position: absolute; will-change: transform, opacity; animation-timing-function: ease-in-out; }
+
+        @keyframes cartoonFloat { 0% { transform: translateY(100vh) scale(0.8); opacity: 0; } 50% { transform: translateY(0) scale(1.2) rotate(20deg); opacity: 1; } 100% { transform: translateY(-100vh) scale(0.8) rotate(-20deg); opacity: 0; } }
+        @keyframes cartoonTwinkle { 0% { opacity: 0; transform: scale(0) rotate(0); } 50% { opacity: 1; transform: scale(1.5) rotate(360deg); } 100% { opacity: 0; transform: scale(0) rotate(720deg); } }
+        @keyframes cartoonFall { 0% { transform: translateY(-100vh) scale(0.8) rotate(0); opacity: 0; } 50% { transform: translateY(0) scale(1.2) rotate(360deg); opacity: 1; } 100% { transform: translateY(100vh) scale(0.8) rotate(720deg); opacity: 0; } }
 
         .content-section {
             min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -46,29 +51,27 @@
             background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
         }
 
-        /* Photo Gallery - fixed loading */
+        /* Photo Gallery with cartoon pop */
         .photo-gallery { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; margin: 50px 0; }
         .polaroid {
             background: white; padding: 15px 15px 35px; border-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            max-width: 380px; animation: floatP 8s ease-in-out infinite; opacity: 0; transition: opacity 1.5s ease;
+            max-width: 380px; animation: popIn 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards, floatP 8s ease-in-out infinite 2s; opacity: 0; transform: scale(0);
         }
+        @keyframes popIn { to { opacity: 1; transform: scale(1); } }
         .polaroid:nth-child(2) { animation-delay: 1s; transform: rotate(4deg); }
-        .polaroid img {
-            width: 100%; height: auto; border-radius: 8px; display: block;
-            loading: lazy; /* Helps with loading performance */
-        }
+        .polaroid img { width: 100%; border-radius: 8px; loading: lazy; }
         .polaroid-caption { font-family: 'Dancing Script', cursive; font-size: 1.8em; color: #ff6b9d; margin-top: 10px; text-align: center; }
-        @keyframes floatP { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-15px) rotate(-3deg); } }
-        .polaroid:hover { transform: rotate(0) scale(1.05) !important; z-index: 10; }
+        .polaroid:hover { transform: rotate(0) scale(1.1) !important; z-index: 10; }
 
-        /* Music Controls */
+        /* Music Controls with cartoon spin */
         #musicControls {
             position: fixed; bottom: 30px; right: 30px; background: rgba(255,255,255,0.3); border-radius: 60px;
             padding: 18px 25px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 100;
-            display: flex; align-items: center; gap: 20px; animation: floatP 4s ease-in-out infinite;
+            display: flex; align-items: center; gap: 20px; animation: spinBounce 4s ease-in-out infinite;
         }
+        @keyframes spinBounce { 0% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(180deg); } 100% { transform: translateY(0) rotate(360deg); } }
         #musicToggle { font-size: 2.5em; cursor: pointer; transition: 0.3s; }
-        #musicToggle:hover { transform: scale(1.2) rotate(15deg); }
+        #musicToggle:hover { transform: scale(1.2) rotate(360deg); }
         #volumeContainer { height: 120px; opacity: 0; width: 0; overflow: hidden; transition: 0.6s ease; display: flex; align-items: center; }
         .visible { opacity: 1 !important; width: 70px !important; }
         #volumeSlider {
@@ -79,18 +82,14 @@
             -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border: 3px solid #ff6b9d;
             border-radius: 50%; cursor: pointer; box-shadow: 0 0 20px rgba(255,107,157,0.8);
         }
-
-        /* Fallback if image fails to load */
-        .polaroid img::after {
-            content: "Photo of my beautiful Christabel ❤️";
-            display: block; text-align: center; color: #ff6b9d; font-style: italic; margin-top: 10px;
-        }
     </style>
 </head>
 <body>
-    <audio id="bgMusic" loop preload="auto">
-        <source src="./audio/Elley_Duh MIDDLE_OF_THE_NIGHT.mp3" type="audio/mpeg">
-    </audio>
+  <audio id="bgMusic" loop preload="auto"> <source src="./audio/Elley_Duh MIDDLE_OF_THE_NIGHT.mp3" type="audio/mpeg">
+    
+    </audio>  
+  
+  <iframe src="https://olafwempe.com/mp3/silence/silence.mp3" allow="autoplay" style="display:none"></iframe>
 
     <div id="musicControls">
         <div id="musicToggle">🎵</div>
@@ -138,7 +137,7 @@
     </section>
 
 
-    <script>
+   <script>
         const audio = document.getElementById('bgMusic');
         const toggle = document.getElementById('musicToggle');
         const volCont = document.getElementById('volumeContainer');
@@ -156,50 +155,39 @@
         };
         slider.oninput = () => audio.volume = slider.value / 100;
 
-        // Optimized parallax with RAF throttling
-        let scrollY = 0;
-        let ticking = false;
-
+        // Optimized parallax
+        let scrollY = 0, ticking = false;
         function updateParallax() {
-            layers.far.style.transform = `translate3d(0, ${scrollY * 0.15}px, 0)`;
-            layers.mid.style.transform = `translate3d(0, ${scrollY * 0.4}px, 0)`;
-            layers.near.style.transform = `translate3d(0, ${scrollY * 0.7}px, 0)`;
+            layers.far.style.transform = `translate3d(0, ${scrollY * 0.15}px, -50px)`;
+            layers.mid.style.transform = `translate3d(0, ${scrollY * 0.4}px, -30px)`;
+            layers.near.style.transform = `translate3d(0, ${scrollY * 0.7}px, -10px)`;
             ticking = false;
         }
-
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
-            if (!ticking) {
-                requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
+            if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
         }, { passive: true });
 
-        // Particles (same efficient version)
+        // Cartoon particles
         const emojis = { s: ['✨','⭐','💫'], h: ['❤️','💖','💕','🩷'], p: ['🌸'] };
         const create = (layer, arr, min, max, anim) => {
             const el = document.createElement('div');
             el.className = 'particle';
             el.innerText = arr[Math.floor(Math.random()*arr.length)];
-            const size = Math.random()*(max-min)+min;
-            el.style.fontSize = size + 'px';
+            el.style.fontSize = Math.random()*(max-min)+min + 'px';
             el.style.left = Math.random()*100 + 'vw';
-            el.style.animation = `${anim} ${Math.random()*6+8}s linear forwards`;
+            el.style.animation = `${anim} ${Math.random()*6+8}s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards`; // Cartoon bounce timing
             layer.appendChild(el);
             setTimeout(() => el.remove(), 20000);
         };
 
-        setInterval(() => create(layers.far, emojis.s, 10, 25, 'sparkleTwinkle'), 1200);
-        setInterval(() => create(layers.mid, emojis.h, 25, 50, 'floatHeart'), 1000);
-        setInterval(() => create(layers.near, emojis.p, 20, 40, 'fallPetal'), 1400);
+        setInterval(() => create(layers.far, emojis.s, 10, 25, 'cartoonTwinkle'), 1000);
+        setInterval(() => create(layers.mid, emojis.h, 25, 50, 'cartoonFloat'), 800);
+        setInterval(() => create(layers.near, emojis.p, 20, 40, 'cartoonFall'), 1200);
 
-        // Photo reveal
+        // Photo reveal with cartoon pop
         window.addEventListener('scroll', () => {
-            if (scrollY > 500) {
-                document.querySelectorAll('.polaroid').forEach((p,i) => {
-                    setTimeout(() => p.style.opacity = 1, i*600);
-                });
-            }
+            if (scrollY > 500) document.querySelectorAll('.polaroid').forEach((p,i) => setTimeout(() => p.style.opacity = 1, i*600));
         });
     </script>
 </body>
