@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To My Christabel ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Satisfy&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #ffeef8, #ffd4e5, #ff9a9e);
+            background-size: 400% 400%;
+            animation: grad 30s ease infinite;
+        }
+        @keyframes grad { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+        .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .container {
+            text-align: center; padding: 50px; background: rgba(255,255,255,0.18); border-radius: 40px;
+            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.25); max-width: 90%; z-index: 20;
+            animation: unfold 2s ease forwards 0.5s; opacity: 0; transform: scale(0.9);
+        }
+        @keyframes unfold { to { opacity: 1; transform: scale(1); } }
+
+        h1 { font-family: 'Great Vibes', cursive; font-size: 4em; color: #ff6b9d; margin-bottom: 10px; animation: fade 1.8s forwards 1.5s; opacity: 0; }
+        .name { font-family: 'Dancing Script', cursive; font-size: 5.2em; color: #ff4d94; margin: 15px 0; animation: fade 2s forwards 2s; opacity: 0; }
+        p { font-family: 'Satisfy', cursive; font-size: 2em; color: #fff; line-height: 1.7; max-width: 800px; margin: 30px auto; animation: fade 2.2s forwards 2.8s; opacity: 0; }
+        .heart { font-size: 7.5em; margin: 30px 0; animation: beat 2.5s ease infinite 4s, fade 1.5s forwards 4s; opacity: 0; cursor: pointer; }
+        @keyframes fade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes beat { 0%,100% { transform: scale(1); filter: drop-shadow(0 0 20px #ff69b4); } 50% { transform: scale(1.2); filter: drop-shadow(0 0 50px #ff69b4); } }
+
+        /* Ultra-optimized parallax layers */
+        .parallax-layer {
+            position: fixed; inset: 0; pointer-events: none; will-change: transform;
+            transform: translate3d(0,0,0); /* Force GPU layer */
+        }
+        #far { z-index: 2; } #mid { z-index: 5; } #near { z-index: 8; }
+        .particle { position: absolute; will-change: transform, opacity; }
+
+        .content-section {
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 50px; text-align: center; color: white; font-family: 'Satisfy', cursive; font-size: 2em;
+            background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
+        }
+
+        /* Photo Gallery - fixed loading */
+        .photo-gallery { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; margin: 50px 0; }
+        .polaroid {
+            background: white; padding: 15px 15px 35px; border-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            max-width: 380px; animation: floatP 8s ease-in-out infinite; opacity: 0; transition: opacity 1.5s ease;
+        }
+        .polaroid:nth-child(2) { animation-delay: 1s; transform: rotate(4deg); }
+        .polaroid img {
+            width: 100%; height: auto; border-radius: 8px; display: block;
+            loading: lazy; /* Helps with loading performance */
+        }
+        .polaroid-caption { font-family: 'Dancing Script', cursive; font-size: 1.8em; color: #ff6b9d; margin-top: 10px; text-align: center; }
+        @keyframes floatP { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-15px) rotate(-3deg); } }
+        .polaroid:hover { transform: rotate(0) scale(1.05) !important; z-index: 10; }
+
+        /* Music Controls */
+        #musicControls {
+            position: fixed; bottom: 30px; right: 30px; background: rgba(255,255,255,0.3); border-radius: 60px;
+            padding: 18px 25px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 100;
+            display: flex; align-items: center; gap: 20px; animation: floatP 4s ease-in-out infinite;
+        }
+        #musicToggle { font-size: 2.5em; cursor: pointer; transition: 0.3s; }
+        #musicToggle:hover { transform: scale(1.2) rotate(15deg); }
+        #volumeContainer { height: 120px; opacity: 0; width: 0; overflow: hidden; transition: 0.6s ease; display: flex; align-items: center; }
+        .visible { opacity: 1 !important; width: 70px !important; }
+        #volumeSlider {
+            -webkit-appearance: slider-vertical; writing-mode: bt-lr; width: 10px; height: 120px; background: rgba(255,255,255,0.3);
+            border-radius: 20px; outline: none;
+        }
+        #volumeSlider::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border: 3px solid #ff6b9d;
+            border-radius: 50%; cursor: pointer; box-shadow: 0 0 20px rgba(255,107,157,0.8);
+        }
+
+        /* Fallback if image fails to load */
+        .polaroid img::after {
+            content: "Photo of my beautiful Christabel ❤️";
+            display: block; text-align: center; color: #ff6b9d; font-style: italic; margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_4e6b8c7a51.mp3?filename=river-flows-in-you-14569.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="musicControls">
+        <div id="musicToggle">🎵</div>
+        <div id="volumeContainer"><input type="range" id="volumeSlider" min="0" max="100" value="60"></div>
+    </div>
+
+    <section class="hero">
+        <div class="parallax-layer" id="far"></div>
+        <div class="parallax-layer" id="mid"></div>
+        <div class="parallax-layer" id="near"></div>
+
+        <div class="container">
+            <h1>My Eternal Love</h1>
+            <div class="name">Christabel</div>
+            <p>I love you.<br>I hope you know that I truly love you<br>and want to do right by you —<br>with my actions and my words,<br>every single day, forever.</p>
+            <div class="heart">❤️</div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <p>And here you are...<br>My beautiful Christabel 🌹</p>
+        <!-- <div class="photo-gallery">/ -->
+            <div class="polaroid" style="transform: rotate(-3deg);">
+                <img src="./imgs/christabel-red-roses.jpg" alt="Christabel with red roses" loading="lazy" onerror="this.src=''; this.alt='My Queen with red roses ❤️';">
+                <div class="polaroid-caption">My Queen ❤️</div>
+            </div>
+            <div class="polaroid">
+                <img src="./imgs/christabel-white-roses.jpg" alt="Beautiful white roses" loading="lazy" onerror="this.src=''; this.alt='Forever Yours with white roses 💕';">
+                <div class="polaroid-caption">Forever Yours 💕</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <p>Scroll down slowly...<br>to feel how deep my love is.<br>💕 Forever yours 💕</p>
+    </section>
+
+      <section class="content-section">
+        <p>I pushed you away...<br>without talking<br>💕I don't what to say💕</p>
+    </section>
+
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const toggle = document.getElementById('musicToggle');
+        const volCont = document.getElementById('volumeContainer');
+        const slider = document.getElementById('volumeSlider');
+        const layers = { far: document.getElementById('far'), mid: document.getElementById('mid'), near: document.getElementById('near') };
+
+        let playing = false;
+        audio.volume = 0.6;
+        audio.muted = true; audio.play().catch(() => {});
+
+        toggle.onclick = () => {
+            playing = !playing;
+            if (playing) { audio.muted = false; audio.play(); toggle.innerHTML = '🔇'; volCont.classList.add('visible'); }
+            else { audio.pause(); toggle.innerHTML = '🎵'; volCont.classList.remove('visible'); }
+        };
+        slider.oninput = () => audio.volume = slider.value / 100;
+
+        // Optimized parallax with RAF throttling
+        let scrollY = 0;
+        let ticking = false;
+
+        function updateParallax() {
+            layers.far.style.transform = `translate3d(0, ${scrollY * 0.15}px, 0)`;
+            layers.mid.style.transform = `translate3d(0, ${scrollY * 0.4}px, 0)`;
+            layers.near.style.transform = `translate3d(0, ${scrollY * 0.7}px, 0)`;
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+            if (!ticking) {
+                requestAnimationFrame(updateParallax);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        // Particles (same efficient version)
+        const emojis = { s: ['✨','⭐','💫'], h: ['❤️','💖','💕','🩷'], p: ['🌸'] };
+        const create = (layer, arr, min, max, anim) => {
+            const el = document.createElement('div');
+            el.className = 'particle';
+            el.innerText = arr[Math.floor(Math.random()*arr.length)];
+            const size = Math.random()*(max-min)+min;
+            el.style.fontSize = size + 'px';
+            el.style.left = Math.random()*100 + 'vw';
+            el.style.animation = `${anim} ${Math.random()*6+8}s linear forwards`;
+            layer.appendChild(el);
+            setTimeout(() => el.remove(), 20000);
+        };
+
+        setInterval(() => create(layers.far, emojis.s, 10, 25, 'sparkleTwinkle'), 1200);
+        setInterval(() => create(layers.mid, emojis.h, 25, 50, 'floatHeart'), 1000);
+        setInterval(() => create(layers.near, emojis.p, 20, 40, 'fallPetal'), 1400);
+
+        // Photo reveal
+        window.addEventListener('scroll', () => {
+            if (scrollY > 500) {
+                document.querySelectorAll('.polaroid').forEach((p,i) => {
+                    setTimeout(() => p.style.opacity = 1, i*600);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
