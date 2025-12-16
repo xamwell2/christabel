@@ -11,85 +11,83 @@
             font-family: Arial, sans-serif;
             min-height: 100vh;
             overflow-x: hidden;
-            background: linear-gradient(135deg, #ffeef8, #ffd4e5, #ff9a9e);
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1, #ffb6c1);
             background-size: 400% 400%;
-            animation: grad 30s ease infinite;
+            animation: grad 35s ease infinite;
+            contain: strict;
         }
         @keyframes grad { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
 
         .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .container {
-            text-align: center; padding: 50px; background: rgba(255,255,255,0.18); border-radius: 40px;
-            backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0,0,0,0.25); max-width: 90%; z-index: 20;
-            animation: flyIn 3s ease forwards 0.5s, wiggle 5s ease-in-out infinite 4s; opacity: 0; transform: scale(0.5) translateY(-100vh);
+            text-align: center; padding: 60px 40px; background: rgba(255,255,255,0.22); border-radius: 50px;
+            backdrop-filter: blur(25px); box-shadow: 0 25px 70px rgba(0,0,0,0.3); max-width: 90%; z-index: 20;
+            animation: flyIn 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards 0.5s, heartbeat 4s ease-in-out infinite 4s;
+            opacity: 0; transform: translateY(-100vh) scale(0.6); will-change: transform, opacity;
         }
-        @keyframes flyIn { to { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes wiggle { 0%,100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg); } }
+        @keyframes flyIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+        @keyframes heartbeat { 0%,100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        h1 { font-family: 'Great Vibes', cursive; font-size: 4em; color: #ff6b9d; margin-bottom: 10px; animation: handWrite 2s steps(40) forwards 1.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
-        .name { font-family: 'Dancing Script', cursive; font-size: 5.2em; color: #ff4d94; margin: 15px 0; animation: handWrite 2.5s steps(40) forwards 2.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
-        p { font-family: 'Satisfy', cursive; font-size: 2em; color: #fff; line-height: 1.7; max-width: 800px; margin: 30px auto; animation: handWrite 3s steps(40) forwards 3.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
-        .heart { font-size: 7.5em; margin: 30px 0; animation: cartoonBeat 1.5s ease infinite 5s, fade 1.5s forwards 5s; opacity: 0; cursor: pointer; }
+        h1 { font-family: 'Great Vibes', cursive; font-size: 4.2em; color: #ff4081; animation: handWrite 2s steps(30) forwards 1.5s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
+        .name { font-family: 'Dancing Script', cursive; font-size: 5.5em; color: #ff1744; animation: handWrite 2.5s steps(30) forwards 2.2s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; }
+        p { font-family: 'Satisfy', cursive; font-size: 2.1em; color: #fff; line-height: 1.8; max-width: 800px; margin: 35px auto; animation: handWrite 3.5s steps(50) forwards 3.2s; opacity: 0; overflow: hidden; white-space: nowrap; width: 0; text-shadow: 1px 1px 4px rgba(0,0,0,0.4); }
         @keyframes handWrite { to { width: 100%; opacity: 1; } }
-        @keyframes cartoonBeat { 0% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 10px #ff69b4); } 30% { transform: scale(1.3) rotate(5deg); } 60% { transform: scale(1.1) rotate(-5deg); } 100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 20px #ff69b4); } }
 
-        /* Optimized parallax with cartoon depth */
+        .heart { font-size: 8em; margin: 40px 0; animation: cartoonBeat 1.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite 5s; opacity: 1; cursor: pointer; }
+        @keyframes cartoonBeat { 0%,100% { transform: scale(1) rotate(0); } 30% { transform: scale(1.35) rotate(8deg); } 60% { transform: scale(1.15) rotate(-8deg); } }
+
         .parallax-layer {
             position: fixed; inset: 0; pointer-events: none; will-change: transform;
-            transform: translate3d(0,0,0); perspective: 1000px; /* 3D cartoon feel */
+            transform: translate3d(0,0,0); contain: strict;
         }
-        #far { z-index: 2; transform: translateZ(-50px); } #mid { z-index: 5; transform: translateZ(-30px); } #near { z-index: 8; transform: translateZ(-10px); }
-        .particle { position: absolute; will-change: transform, opacity; animation-timing-function: ease-in-out; }
+        #far { z-index: 2; } #mid { z-index: 5; } #near { z-index: 8; }
+        .particle { position: absolute; will-change: transform, opacity; pointer-events: none; }
 
-        @keyframes cartoonFloat { 0% { transform: translateY(100vh) scale(0.8); opacity: 0; } 50% { transform: translateY(0) scale(1.2) rotate(20deg); opacity: 1; } 100% { transform: translateY(-100vh) scale(0.8) rotate(-20deg); opacity: 0; } }
-        @keyframes cartoonTwinkle { 0% { opacity: 0; transform: scale(0) rotate(0); } 50% { opacity: 1; transform: scale(1.5) rotate(360deg); } 100% { opacity: 0; transform: scale(0) rotate(720deg); } }
-        @keyframes cartoonFall { 0% { transform: translateY(-100vh) scale(0.8) rotate(0); opacity: 0; } 50% { transform: translateY(0) scale(1.2) rotate(360deg); opacity: 1; } 100% { transform: translateY(100vh) scale(0.8) rotate(720deg); opacity: 0; } }
+        @keyframes cartoonFloat { 0% { transform: translateY(120vh) scale(0.7) rotate(0); opacity: 0; } 50% { transform: translateY(0) scale(1.3) rotate(30deg); opacity: 1; } 100% { transform: translateY(-120vh) scale(0.7) rotate(-30deg); opacity: 0; } }
+        @keyframes cartoonTwinkle { 0%,100% { opacity: 0; transform: scale(0) rotate(0); } 40% { opacity: 1; transform: scale(1.6) rotate(360deg); } }
+        @keyframes cartoonFall { 0% { transform: translateY(-120vh) scale(0.7) rotate(0); opacity: 0; } 50% { transform: translateY(0) scale(1.3) rotate(720deg); opacity: 1; } 100% { transform: translateY(120vh) scale(0.7) rotate(1440deg); opacity: 0; } }
 
         .content-section {
             min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 50px; text-align: center; color: white; font-family: 'Satisfy', cursive; font-size: 2em;
-            background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
+            padding: 60px 20px; text-align: center; color: white; font-family: 'Satisfy', cursive; font-size: 2.2em;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); opacity: 0; transition: opacity 1.5s ease;
         }
+        .content-section.visible { opacity: 1; }
 
-        /* Photo Gallery with cartoon pop */
-        .photo-gallery { display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; margin: 50px 0; }
+        .photo-gallery { display: flex; flex-wrap: wrap; gap: 50px; justify-content: center; margin: 60px 0; }
         .polaroid {
-            background: white; padding: 15px 15px 35px; border-radius: 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            max-width: 380px; animation: popIn 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards, floatP 8s ease-in-out infinite 2s; opacity: 0; transform: scale(0);
+            background: white; padding: 20px 20px 45px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 400px; opacity: 0; transform: scale(0) rotate(-5deg); transition: transform 0.5s ease;
+            border: 8px solid #fff0f5; position: relative;
         }
-        @keyframes popIn { to { opacity: 1; transform: scale(1); } }
-        .polaroid:nth-child(2) { animation-delay: 1s; transform: rotate(4deg); }
-        .polaroid img { width: 100%; border-radius: 8px; loading: lazy; }
-        .polaroid-caption { font-family: 'Dancing Script', cursive; font-size: 1.8em; color: #ff6b9d; margin-top: 10px; text-align: center; }
-        .polaroid:hover { transform: rotate(0) scale(1.1) !important; z-index: 10; }
+        .polaroid::before { content: '💕'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 2em; }
+        .polaroid.visible { opacity: 1; transform: scale(1) rotate(0); animation: popIn 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; }
+        @keyframes popIn { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .polaroid img { width: 100%; border-radius: 10px; loading: lazy; }
+        .polaroid-caption { font-size: 2em; color: #ff1744; margin-top: 15px; }
+        .polaroid:hover { transform: scale(1.08) !important; z-index: 10; }
 
-        /* Music Controls with cartoon spin */
         #musicControls {
-            position: fixed; bottom: 30px; right: 30px; background: rgba(255,255,255,0.3); border-radius: 60px;
-            padding: 18px 25px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 100;
-            display: flex; align-items: center; gap: 20px; animation: spinBounce 4s ease-in-out infinite;
+            position: fixed; bottom: 30px; right: 30px; background: rgba(255,255,255,0.35); border-radius: 70px;
+            padding: 20px 30px; backdrop-filter: blur(20px); box-shadow: 0 15px 40px rgba(0,0,0,0.25); z-index: 100;
+            display: flex; align-items: center; gap: 25px; animation: bounce 3s ease-in-out infinite;
         }
-        @keyframes spinBounce { 0% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-10px) rotate(180deg); } 100% { transform: translateY(0) rotate(360deg); } }
-        #musicToggle { font-size: 2.5em; cursor: pointer; transition: 0.3s; }
-        #musicToggle:hover { transform: scale(1.2) rotate(360deg); }
-        #volumeContainer { height: 120px; opacity: 0; width: 0; overflow: hidden; transition: 0.6s ease; display: flex; align-items: center; }
-        .visible { opacity: 1 !important; width: 70px !important; }
-        #volumeSlider {
-            -webkit-appearance: slider-vertical; writing-mode: bt-lr; width: 10px; height: 120px; background: rgba(255,255,255,0.3);
-            border-radius: 20px; outline: none;
-        }
-        #volumeSlider::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 24px; height: 24px; background: #fff; border: 3px solid #ff6b9d;
-            border-radius: 50%; cursor: pointer; box-shadow: 0 0 20px rgba(255,107,157,0.8);
-        }
+        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        #musicToggle { font-size: 2.8em; cursor: pointer; transition: 0.4s; }
+        #musicToggle:hover { transform: scale(1.3) rotate(360deg); }
+        #volumeContainer { height: 130px; opacity: 0; width: 0; overflow: hidden; transition: 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55); display: flex; align-items: center; }
+        .visible { opacity: 1 !important; width: 80px !important; }
+        #volumeSlider { -webkit-appearance: slider-vertical; writing-mode: bt-lr; width: 12px; height: 130px; background: rgba(255,255,255,0.4); border-radius: 20px; outline: none; }
+        #volumeSlider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; background: #fff; border: 4px solid #ff4081; border-radius: 50%; box-shadow: 0 0 25px rgba(255,64,129,0.8); }
     </style>
 </head>
 <body>
-  <audio id="bgMusic" loop preload="auto"> <source src="./audio/Elley_Duh MIDDLE_OF_THE_NIGHT.mp3" type="audio/mpeg">
-    
-    </audio>  
-  
-  <iframe src="https://olafwempe.com/mp3/silence/silence.mp3" allow="autoplay" style="display:none"></iframe>
+    <!-- Silent iframe for autoplay permission -->
+    <iframe src="https://olafwempe.com/mp3/silence/silence.mp3" allow="autoplay" style="display:none"></iframe>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="./audio/Elley_Duh MIDDLE_OF_THE_NIGHT.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="musicControls">
         <div id="musicToggle">🎵</div>
@@ -111,13 +109,13 @@
 
     <section class="content-section">
         <p>And here you are...<br>My beautiful Christabel 🌹</p>
-        <!-- <div class="photo-gallery">/ -->
-            <div class="polaroid" style="transform: rotate(-3deg);">
-                <img src="./imgs/christabel-red-roses.jpg" alt="Christabel with red roses" loading="lazy" onerror="this.src=''; this.alt='My Queen with red roses ❤️';">
+        <div class="photo-gallery">
+            <div class="polaroid">
+                <img src="./imgs/christabel-red-roses.jpg" alt="Christabel with red roses" loading="lazy">
                 <div class="polaroid-caption">My Queen ❤️</div>
             </div>
             <div class="polaroid">
-                <img src="./imgs/christabel-white-roses.jpg" alt="Beautiful white roses" loading="lazy" onerror="this.src=''; this.alt='Forever Yours with white roses 💕';">
+                <img src="./imgs/christabel-white-roses.jpg" alt="Beautiful white roses" loading="lazy">
                 <div class="polaroid-caption">Forever Yours 💕</div>
             </div>
         </div>
@@ -128,21 +126,18 @@
     </section>
 
     <section class="content-section">
-        <p>I pushed you away...<br>without talking<br>💕I don't what to say💕</p>
-    </section>
-
-
-    <section class="content-section">
-        <p>Hope to <br>see you in the<br>the near future if possible.</p>
+        <p>I pushed you away...<br>without talking<br>💕I don't know what to say💕</p>
     </section>
 
     <section class="content-section">
-        <p>If this a bye goodbye...<br>I'm good with it<br>we will all be ok at end.</p>
+        <p>Hope to <br>see you in the<br>near future if possible.</p>
     </section>
 
+    <section class="content-section">
+        <p>If this is goodbye...<br>I'm good with it<br>we will all be ok in the end.</p>
+    </section>
 
-
-   <script>
+    <script>
         const audio = document.getElementById('bgMusic');
         const toggle = document.getElementById('musicToggle');
         const volCont = document.getElementById('volumeContainer');
@@ -151,48 +146,52 @@
 
         let playing = false;
         audio.volume = 0.6;
-        audio.muted = true; audio.play().catch(() => {});
+        audio.play().catch(() => {});
 
         toggle.onclick = () => {
             playing = !playing;
-            if (playing) { audio.muted = false; audio.play(); toggle.innerHTML = '🔇'; volCont.classList.add('visible'); }
+            if (playing) { audio.play(); toggle.innerHTML = '🔇'; volCont.classList.add('visible'); }
             else { audio.pause(); toggle.innerHTML = '🎵'; volCont.classList.remove('visible'); }
         };
         slider.oninput = () => audio.volume = slider.value / 100;
 
-        // Optimized parallax
+        // Super smooth parallax
         let scrollY = 0, ticking = false;
-        function updateParallax() {
-            layers.far.style.transform = `translate3d(0, ${scrollY * 0.15}px, -50px)`;
-            layers.mid.style.transform = `translate3d(0, ${scrollY * 0.4}px, -30px)`;
-            layers.near.style.transform = `translate3d(0, ${scrollY * 0.7}px, -10px)`;
+        function update() {
+            layers.far.style.transform = `translate3d(0, ${scrollY * 0.12}px, 0)`;
+            layers.mid.style.transform = `translate3d(0, ${scrollY * 0.35}px, 0)`;
+            layers.near.style.transform = `translate3d(0, ${scrollY * 0.65}px, 0)`;
             ticking = false;
         }
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
-            if (!ticking) { requestAnimationFrame(updateParallax); ticking = true; }
+            if (!ticking) { requestAnimationFrame(update); ticking = true; }
         }, { passive: true });
 
-        // Cartoon particles
-        const emojis = { s: ['✨','⭐','💫'], h: ['❤️','💖','💕','🩷'], p: ['🌸'] };
+        // Optimized cartoon particles
+        const emojis = { s: ['✨','⭐','💫'], h: ['❤️','💖','💕','🩷','💗'], p: ['🌸','🥀','🌺'] };
         const create = (layer, arr, min, max, anim) => {
             const el = document.createElement('div');
             el.className = 'particle';
             el.innerText = arr[Math.floor(Math.random()*arr.length)];
-            el.style.fontSize = Math.random()*(max-min)+min + 'px';
-            el.style.left = Math.random()*100 + 'vw';
-            el.style.animation = `${anim} ${Math.random()*6+8}s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards`; // Cartoon bounce timing
+            const size = Math.random()*(max-min)+min;
+            el.style.fontSize = `${size}px`;
+            el.style.left = `${Math.random()*100}vw`;
+            el.style.animation = `${anim} ${Math.random()*5+7}s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards`;
             layer.appendChild(el);
-            setTimeout(() => el.remove(), 20000);
+            setTimeout(() => el.remove(), 15000);
         };
 
-        setInterval(() => create(layers.far, emojis.s, 10, 25, 'cartoonTwinkle'), 1000);
-        setInterval(() => create(layers.mid, emojis.h, 25, 50, 'cartoonFloat'), 800);
-        setInterval(() => create(layers.near, emojis.p, 20, 40, 'cartoonFall'), 1200);
+        setInterval(() => create(layers.far, emojis.s, 12, 28, 'cartoonTwinkle'), 1100);
+        setInterval(() => create(layers.mid, emojis.h, 28, 55, 'cartoonFloat'), 900);
+        setInterval(() => create(layers.near, emojis.p, 22, 45, 'cartoonFall'), 1300);
 
-        // Photo reveal with cartoon pop
+        // Section & photo reveal
+        const sections = document.querySelectorAll('.content-section');
+        const polaroids = document.querySelectorAll('.polaroid');
         window.addEventListener('scroll', () => {
-            if (scrollY > 500) document.querySelectorAll('.polaroid').forEach((p,i) => setTimeout(() => p.style.opacity = 1, i*600));
+            sections.forEach(sec => { if (sec.getBoundingClientRect().top < window.innerHeight * 0.8) sec.classList.add('visible'); });
+            if (scrollY > 400) polaroids.forEach((p,i) => setTimeout(() => p.classList.add('visible'), i*500));
         });
     </script>
 </body>
